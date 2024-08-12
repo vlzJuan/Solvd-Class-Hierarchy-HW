@@ -9,7 +9,7 @@ public class Product {
     //  Attributes:
     public String productName;  //  The name of the product.
     private int stock;          //  The amount of this product in stock.
-
+    private int cost;           //  The cost of this product
 
     /**
      * Constructor for a Product. It requires its name, and the initial
@@ -17,10 +17,13 @@ public class Product {
      *
      * @param productName   , the product's name
      * @param initialStock  , the starting stock of it in the inventory.
+     * @param cost          , the basic cost of this product.
      */
-    public Product(String productName, int initialStock){
+    public Product(String productName, int initialStock,
+                   int cost){
         this.productName = productName;
         this.stock = initialStock;
+        this.cost = cost;
     }
 
 

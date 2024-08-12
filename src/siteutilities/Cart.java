@@ -15,7 +15,7 @@ public class Cart {
     //      A boolean purchase state (public)
     private ArrayList<Product> productList;
     public boolean stateOfPurchase;
-
+    public boolean stateOfDelivery; //
 
     /**
      * Constructor with parameters for this
@@ -24,8 +24,7 @@ public class Cart {
         //  Create a copy of the list (to avoid issues with references).
         this.productList = new ArrayList<>(productList);
         this.stateOfPurchase = false;
-
-
+        stateOfDelivery = false;
 
     //  Implement methods.
 

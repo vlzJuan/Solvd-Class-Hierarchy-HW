@@ -1,6 +1,9 @@
 package users;
 
 
+import siteutilities.Cart;
+
+import java.util.ArrayList;
 
 /**
  * Class corresponding to a regular user from the E-commerce site.
@@ -15,6 +18,10 @@ public class Client extends User{
     //  Adds the following attributes:
     private String displayName;     //  The name that will be displayed for the user.
     private long creditCardNumber;   //  The number of a credit card, to use as payment
+
+    private ArrayList<Cart> purchaseHistory;    //  Attribute that stores this user's
+                                                //  purchases on the site so far.
+
 
     /**
      * Inherits its behaviour from the User parent class.
