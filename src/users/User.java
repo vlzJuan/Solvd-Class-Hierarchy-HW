@@ -6,7 +6,7 @@ package users;
  * This will be the parent class for specific type of users,
  * specifically 'Admin' and 'Client' classes.
  */
-public class User {
+public abstract class User {
 
     //  Attributes:
     protected String userName;
