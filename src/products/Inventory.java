@@ -4,6 +4,8 @@ package products;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static java.lang.String.format;
+
 /**
  * Class dedicated for the inventory stock for the site.
  * This might be easily replaced with access to a Database way down in this course.
@@ -15,16 +17,24 @@ public class Inventory {
     public ArrayList<Product> inventory;
 
     /**
-     * Constructor for an inventory,
+     * Constructor for an inventory, with only a list of products to initialize it.
+     * It initializes the creation date as the date on which the object is instantiated.
      *
-     * @param creationTime  , the time (in LocalDate format) of instantiation.
-     * @param baseInventory , an ArrayList of products to initialize the inventory.
+     * @param baseInventory,    the initial products to store
      */
-    public Inventory(LocalDate creationTime, ArrayList<Product> baseInventory){
-        this.lastUpdate = creationTime;
+    public Inventory(ArrayList<Product> baseInventory){
+        this.lastUpdate = LocalDate.now();
         this.inventory = new ArrayList<>(baseInventory);
     }
 
+    /**
+     * Default constructor. Similar to the first constructor, but initializes
+     * the inventory as an empty arraylist.
+     */
+    public Inventory(){
+        this.lastUpdate = LocalDate.now();
+        this.inventory = new ArrayList<>();
+    }
 
 
     //  Getter for date:
@@ -37,7 +47,7 @@ public class Inventory {
         this.lastUpdate = updateTime;
     }
 
-    ////////////////
+    //////////////// FUNCTIONAL METHODS
 
     /**
      * Method used to add a new product to the list.
@@ -45,7 +55,7 @@ public class Inventory {
      * @param product
      */
     public void addProduct(Product product){
-        //  Implement
+        this.inventory.add(product);
     }
 
     /**
@@ -65,5 +75,22 @@ public class Inventory {
     public void takeProduct(Product product, int amount){
 
     }
+
+
+    /**
+     * Overriden method toString(), to show the products stored in the Inventory.
+     */
+    @Override
+    public String toString(){
+        StringBuilder retornable = new StringBuilder();
+        retornable.append(format("Inventory. Last update: %s\n{\n",
+                this.lastUpdate.toString()));
+        for(Product prod:this.inventory){
+            retornable.append(prod.toString()).append("\n");
+        }
+        retornable.append("}");
+        return retornable.toString();
+    }
+
 
 }
