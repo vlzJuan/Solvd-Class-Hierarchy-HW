@@ -12,9 +12,18 @@ public class MainApp {
         ///////////////////////////////////////////////////////////////////////////////
         //  VERIFICATION OF PACKAGE 'products':
 
-        Product prodA = new Product("asd", 50, 1.0);
+        Product prodA = new Product("Nachos", 50, 1.0);
         System.out.println(prodA);
         System.out.println("\n");
+
+        System.out.println("Modifying prodA's stock to 77, and cost to 3.9");
+
+        prodA.setStock(77);
+        prodA.setCost(3.9);
+
+        System.out.println("prodA's stock is:" + prodA.getStock());
+        System.out.println("prodA's cost is: " + prodA.getCost());
+
 
         Inventory storeInventory = new Inventory();
 
