@@ -62,6 +62,10 @@ public class Product {
         return this.stock;
     }
 
+    public int getCost(){
+        return this.cost;
+    }
+
     /**
      * Setter for the stock amount of this Product.
      *
@@ -71,7 +75,9 @@ public class Product {
         this.stock = newStockAmount;
     }
 
-
+    public void setCost(int cost){
+        this.cost = cost;
+    }
 
 
     //  Implement further methods.
