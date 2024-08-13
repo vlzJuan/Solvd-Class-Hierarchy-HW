@@ -38,6 +38,7 @@ public class Inventory {
         this.inventory = new ArrayList<>();
     }
 
+        // SETTERS AND GETTERS
 
     //  Getter for date:
     public LocalDate getLastUpdate(){
@@ -58,6 +59,7 @@ public class Inventory {
      */
     public void addProduct(Product product){
         this.inventory.add(product);
+        this.lastUpdate = LocalDate.now();
     }
 
     /**
@@ -65,17 +67,18 @@ public class Inventory {
      * @param product
      */
     public void removeProduct(Product product){
-        //  Implement
+        this.inventory.remove(product);
+        this.lastUpdate = LocalDate.now();
     }
 
     /**
      * Method used for taking an amount of a certain product out of the inventory.
      *
-     * @param product
-     * @param amount
+     * @param product   , the product to look for in the inventory.
+     * @param amount    , the amount of product to take from the inventory.
      */
     public void takeProduct(Product product, int amount){
-
+        //  DUE TO IMPLEMENT.
     }
 
 
