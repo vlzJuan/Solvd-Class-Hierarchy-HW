@@ -1,6 +1,8 @@
 package products;
 
 
+import static java.lang.String.format;
+
 /**
  *  Class corresponding to a product from the E-commerce store.
  */
@@ -9,7 +11,7 @@ public class Product {
     //  Attributes:
     public String productName;  //  The name of the product.
     private int stock;          //  The amount of this product in stock.
-    private int cost;           //  The cost of this product
+    private double cost;        //  The cost of this product
 
     /**
      * Constructor for a Product. It requires its name, and the initial
@@ -20,7 +22,7 @@ public class Product {
      * @param cost          , the basic cost of this product.
      */
     public Product(String productName, int initialStock,
-                   int cost){
+                   double cost){
         this.productName = productName;
         this.stock = initialStock;
         this.cost = cost;
@@ -62,7 +64,7 @@ public class Product {
         return this.stock;
     }
 
-    public int getCost(){
+    public double getCost(){
         return this.cost;
     }
 
@@ -75,11 +77,23 @@ public class Product {
         this.stock = newStockAmount;
     }
 
-    public void setCost(int cost){
+    public void setCost(double cost){
         this.cost = cost;
     }
 
 
     //  Implement further methods.
+
+    /**
+     * Overriden method 'toString', to show the product as a string
+     * in an amicable format
+     * @return A descriptive String that shows the instance's characteristics.
+     */
+    @Override
+    public String toString(){
+        return format("Product name: %s, Stock: %d, Cost per unit: %.2f",
+                this.productName, this.stock, this.cost);
+    }
+
 
 }
