@@ -1,4 +1,4 @@
-import products.Inventory;
+import siteutilities.Inventory;
 import products.Product;
 
 /**

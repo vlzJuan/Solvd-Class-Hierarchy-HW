@@ -1,5 +1,7 @@
-package products;
+package siteutilities;
 
+
+import products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
