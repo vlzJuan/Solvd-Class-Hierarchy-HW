@@ -25,11 +25,10 @@ public class Cart {
         this.productList = new ArrayList<>(productList);
         this.stateOfPurchase = false;
         stateOfDelivery = false;
-
-    //  Implement methods.
-
-
     }
+
+
+    // Implement methods
 
 
 
