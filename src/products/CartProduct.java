@@ -1,0 +1,122 @@
+package products;
+
+import static java.lang.String.format;
+
+/**
+ *  Class corresponding to a wrapper for a product from the inventory.
+ *  ALL instances of this class must be instantiated with an existing product.
+ */
+public class CartProduct {
+
+    //  Attributes:
+    public Product referenceProduct;    //  A product already in the inventory
+    public int units;          //  The amount of this product in stock.
+
+    /**
+     * Constructor
+     *
+     * @param referenceProduct, the already-instantiated reference product
+     * @param units ,           the amount of units a user wants.
+     */
+    public CartProduct(Product referenceProduct, int units){
+        this.referenceProduct   =   referenceProduct;
+        this.units = units;
+    }
+
+
+    /**
+     * Constructor by default. Used when you only want one of this products in the cart.
+     *
+     * @param referenceProduct, the already-instantiated reference product
+     */
+    public CartProduct(Product referenceProduct){
+        this.referenceProduct   =   referenceProduct;
+        this.units = 1;
+    }
+
+
+    /**
+     * Basic boolean method, used to determine if there is enough product
+     * in inventory to satisfy this cart.
+     *
+     * @return  'true' if the stock is enough, 'false' otherwise.
+     */
+    public boolean hasStock(){
+        return referenceProduct.hasStock(this.units);
+    }
+
+
+    //  Getters and Setters:
+
+    /**
+     * Setter for the amount of solicited units for this product in the cart.
+     *
+     * @param newUnits      , the new number of units of this product.
+     */
+    public void setUnits(int newUnits){
+        this.units = newUnits;
+    }
+
+    /**
+     * Method used to determine the total cost of 'this.units' amount of products.
+     *
+     * @return  the total cost of this product.
+     */
+    public double totalCost(){
+       return (double) this.units * this.referenceProduct.getCost();
+    }
+
+
+    /**
+     * Overriden method 'toString', to show the product as a string
+     * in an amicable format
+     * @return A descriptive String that shows the instance's characteristics.
+     */
+    @Override
+    public String toString(){
+        return format("Product name: %s, Units in cart: %d, Cost per unit: %.2f",
+                this.referenceProduct.productName, this.units, this.totalCost());
+    }
+
+    /**
+     * Overriden method 'equals', that verifies whether an object can be considered
+     * equal to this instance.
+     *
+     * @param obj   , the object to compare.
+     * @return      'true', if the object is a product that matches the internal product
+     *              in this CartProduct,
+     *              'true' if the object is a CartProduct that matches the internal product
+     *              and the unit count,
+     *              'false' otherwise.
+     *              ### MIGHT WANT TO ADD AN OWNER TO THIS CHECK.
+     */
+    @Override
+    public boolean equals(Object obj){
+        boolean ret = false;
+
+        if(obj instanceof Product product){
+            if(this.referenceProduct.equals(product)){
+                ret = true;
+            }
+        }
+        else if(obj instanceof CartProduct product){
+            if(this.units == product.units
+                    && this.referenceProduct.equals(product.referenceProduct)){
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Overridden method, 'hashCode()'
+     *
+     * @return  an int based on the reference product and the amount of units solicited.
+     */
+    @Override
+    public int hashCode(){
+        return this.units + this.referenceProduct.hashCode();
+    }
+
+
+}
