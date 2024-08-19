@@ -28,7 +28,47 @@ public class Admin extends User{
     }
 
 
-    // Add methods here
+    /**
+     * Overriden method: toString()
+     *
+     * @return A string representing the user.
+     */
+    @Override
+    public String toString(){
+        return "User: " + this.userName + "(Admin)";
+    }
+
+    /**
+     * Overriden method: equals.
+     *
+     * @param obj, an object.
+     * @return          'true' if the other user matches this one,
+     *                  'false' otherwise.
+     */
+    @Override
+    public boolean equals(Object obj){
+        boolean ret = false;
+        if (obj instanceof Admin otherAdmin){
+            if(otherAdmin.userName.equals(this.userName)
+                    && otherAdmin.password.equals(this.password)
+                    &&  otherAdmin.employeeNumber == this.employeeNumber){
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Overriden method: hashCode()
+     * The idea is that all users corresponding to the same employee should have
+     * the same hashcode.
+     *
+     * @return  The employee number.
+     */
+    @Override
+    public int hashCode(){
+        return this.employeeNumber;
+    }
 
 
 }
