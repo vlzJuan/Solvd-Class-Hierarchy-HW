@@ -95,5 +95,36 @@ public class Product {
                 this.productName, this.stock, this.cost);
     }
 
+    /**
+     * Overwrite of the 'equals' method
+     *
+     * @param obj   , an object to compare to this instance
+     * @return      'true' if the object is an instance of a product,
+     *              with the same stock and product name,
+     *              'false' otherwise.
+     */
+    @Override
+    public boolean equals(Object obj){
+        boolean ret = false;
+
+        if(obj instanceof Product prod){
+            if(prod.productName.equals(this.productName)
+                    && prod.stock == this.stock){
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Overridden method: 'hashCode()'
+     *
+     * @return an int build from the productName, stock and cost attributes.
+     */
+    @Override
+    public int hashCode(){
+        return this.productName.hashCode() + this.stock + (int) cost;
+    }
+
 
 }
