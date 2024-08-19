@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Client extends User{
 
-    //  Inherits the following attributes from it's parent class:
+    //  Inherits the following attributes from its parent class:
     //      -String userName
     //      -String password
     //  Adds the following attributes:
@@ -47,5 +47,43 @@ public class Client extends User{
         // but I'll fix this in a later commit.
     }
 
+    /**
+     * Overriden method: toString()
+     *
+     * @return A string representing the user.
+     */
+    @Override
+    public String toString(){
+        return "User: " + this.userName + "(Client)";
+    }
+
+    /**
+     * Overriden method: equals.
+     *
+     * @param obj, an object.
+     * @return          'true' if the other user matches this one,
+     *                  'false' otherwise.
+     */
+    @Override
+    public boolean equals(Object obj){
+        boolean ret = false;
+        if (obj instanceof Client otherClient){
+            if(otherClient.userName.equals(this.userName)
+                    && otherClient.password.equals(this.password) ){
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * Overriden method: hashCode()
+     *
+     * @return an integer based off this instance's attributes.
+     */
+    @Override
+    public int hashCode(){
+        return this.userName.hashCode() + this.password.hashCode();
+    }
 
 }
