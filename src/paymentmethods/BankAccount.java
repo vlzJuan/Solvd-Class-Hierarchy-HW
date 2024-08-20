@@ -10,6 +10,7 @@ public class BankAccount extends PaymentMethod{
     //  Inherited attributes:
     //      - long identifier
     //      - int validationCode
+    //      - int balance
     // Local Attributes:
     private int balance;        //  The balance in this account
     private String aliasName;   //  The alias for the bank account.
@@ -17,8 +18,7 @@ public class BankAccount extends PaymentMethod{
 
     public BankAccount(long identifier, int validationCode,
                        int balance, String aliasName){
-        super(identifier, validationCode);
-        this.balance = balance;
+        super(identifier, validationCode, balance);
         this.aliasName = aliasName;
     }
 

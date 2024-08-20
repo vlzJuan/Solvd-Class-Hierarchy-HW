@@ -9,13 +9,14 @@ public class CreditCard extends PaymentMethod{
     //  Inherited attributes:
     //      - long identifier
     //      - int validationCode
+    //      - int balance
     //  Local attributes:
     private String cardName;    //  Name in the card
     private String cardEmitter; //  Name of the enterprise that issued this card
 
-    public CreditCard(long identifier, int validationCode,
+    public CreditCard(long identifier, int validationCode, int balance,
                       String cardName, String cardEmitter){
-        super(identifier,validationCode);
+        super(identifier,validationCode, balance);
         this.cardName = cardName;
         this.cardEmitter = cardEmitter;
     }

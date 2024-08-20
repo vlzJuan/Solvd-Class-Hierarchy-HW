@@ -13,10 +13,12 @@ public abstract class PaymentMethod {
     //Attributes:
     protected long identifier;        // The numeric identifier of this payment method.
     protected int validationCode;     //
+    protected int balance;
 
-    public PaymentMethod(long identifier, int validationCode){
+    public PaymentMethod(long identifier, int validationCode, int balance){
         this.identifier = identifier;
         this.validationCode = validationCode;
+        this.balance = balance;
     }
 
     // Implement methods later.
