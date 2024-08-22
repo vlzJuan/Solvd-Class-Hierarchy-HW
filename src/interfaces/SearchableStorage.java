@@ -42,4 +42,14 @@ public interface SearchableStorage<T>{
      */
     public T retrieve(int index);
 
+
+    /**
+     * Method used to determine the internal size of this container.
+     *
+     * @return  an integer representing the size of the internal arrayList for
+     *          the stored product within this instance.
+     */
+    public int size();
+
+
 }
