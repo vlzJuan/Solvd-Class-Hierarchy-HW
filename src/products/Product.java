@@ -1,12 +1,14 @@
 package products;
 
 
+import interfaces.Purchasable;
+
 import static java.lang.String.format;
 
 /**
  *  Class corresponding to a product from the E-commerce store.
  */
-public class Product {
+public class Product implements Purchasable {
 
     //  Attributes:
     public String productName;  //  The name of the product.
@@ -53,33 +55,38 @@ public class Product {
     }
 
 
-    //  Getters and Setters:
+    /**
+     * Method used to add more stock to this item.
+     *
+     * @param extraStock, the amount to add to the stock of this product.
+     * @return              'true' if the operation was performed,
+     *                      'false' otherwise.
+     */
+    public boolean restock(int extraStock) {
+        boolean ret = false;
+        if (extraStock >= 0) {
+            this.stock = this.stock + extraStock;
+            ret = true;
+        }
+        return ret;
+    }
+
 
     /**
-     * Getter for the stock amount of this product.
+     * Method used to remove stock from a Purchasable item.
      *
-     * @return  the amount of stock of the product (from the private field 'stock')
+     * @param removedStock, the amount of stock to remove.
+     * @return              'true' if the stock was removed,
+     *                      'false' if the operation was not performed.
      */
-    public int getStock(){
-        return this.stock;
+    public boolean removeStock(int removedStock){
+        boolean ret = false;
+        if(hasStock(removedStock)){
+            this.stock = this.stock - removedStock;
+        }
+        return ret;
     }
 
-    public double getCost(){
-        return this.cost;
-    }
-
-    /**
-     * Setter for the stock amount of this Product.
-     *
-     * @param newStockAmount    , the new number of units of this product.
-     */
-    public void setStock(int newStockAmount){
-        this.stock = newStockAmount;
-    }
-
-    public void setCost(double cost){
-        this.cost = cost;
-    }
 
 
     //  Implement further methods.
@@ -91,7 +98,7 @@ public class Product {
      */
     @Override
     public String toString(){
-        return format("Product name: %s, Stock: %d, Cost per unit: %.2f",
+        return format("{Product name: %s, Stock: %d, Cost per unit: %.2f}",
                 this.productName, this.stock, this.cost);
     }
 
