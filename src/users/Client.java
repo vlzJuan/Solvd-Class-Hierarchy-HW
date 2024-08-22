@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * This class should have permissions to instantiate a product cart,
  * make purchases, and
  */
-public class Client extends User{
+public final class Client extends User{
 
     //  Inherits the following attributes from its parent class:
     //      -String userName
@@ -48,7 +48,7 @@ public class Client extends User{
     }
 
     /**
-     * Overriden method: toString()
+     * Overridden method: toString()
      *
      * @return A string representing the user.
      */
