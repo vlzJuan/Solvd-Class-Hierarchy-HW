@@ -1,6 +1,7 @@
 package siteutilities;
 
 
+import interfaces.SearchableStorage;
 import products.Product;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ import static java.lang.String.format;
  * Class dedicated for the inventory stock for the site.
  * This might be easily replaced with access to a Database way down in this course.
  */
-public class Inventory {
+public class Inventory implements SearchableStorage<Product> {
 
     //  Attributes:
     private LocalDate lastUpdate;
@@ -96,6 +97,50 @@ public class Inventory {
         retornable.append("}");
         return retornable.toString();
     }
+
+
+
+    ////// METHODS FROM INTERFACE 'SearchableStorage':
+
+    /**
+     * A constructor for a String that shows the objects in a list menu.
+     *
+     * @return  A descriptive String that shows the options within the Searchable,
+     *          with indexes to access them.
+     */
+    @Override
+    public String menuDescriptor() {
+
+        StringBuilder retornable = new StringBuilder();
+        retornable.append("Select the object to choose:\n");
+        for(int i=0; i<inventory.size(); i++){
+            retornable.append(i + " - " + inventory.get(i).productName + "\n");
+        }
+        retornable.append("'-1' - Exit the menu.\n");
+        return retornable.toString();
+    }
+
+    /**
+     * Method used to validate if an index can be used safely.
+     *
+     * @param index , the index of the element one wants to retrieve.
+     * @return      'true'  if the index can be accessed,
+     *              'false' otherwise.
+     */
+    public boolean isRetrievable(int index){
+        return (index>=0) && (index<this.inventory.size());
+    }
+
+    /**
+     * A method that returns the instance stored in the
+     *
+     * @param index , the
+     * @return  The correct index
+     */
+    public Product retrieve(int index){
+        return inventory.get(index);
+    }
+
 
 
 }
