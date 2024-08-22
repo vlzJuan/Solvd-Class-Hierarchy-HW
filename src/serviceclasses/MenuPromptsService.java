@@ -1,4 +1,5 @@
 package serviceclasses;
+import interfaces.SearchableStorage;
 import products.Product;
 import siteutilities.Inventory;
 
@@ -49,11 +50,36 @@ public class MenuPromptsService {
     }
 
 
-    public static void showInventory(Inventory inv){
+    public static void showInventory(SearchableStorage<?> inv){
         System.out.println(inv.toString());
     }
 
 
+    /**
+     * static method: "promptMenuLoop". Takes a SearchableStorage, and
+     * prompts the user to pick an element within it. This method remains
+     * in a prompt loop until an admisible option is selected (A number within
+     * the accessible range for the container, or -1 to finish the operation.)
+     * @param storage   , a class that implements SearchableStorage.
+     * @return          the correct index for the option presented.
+     */
+    public static int promptMenuLoop(SearchableStorage<?> storage){
+        Scanner scan = new Scanner(System.in);
+        int ret = -2;
+        boolean loopFlag = true;
+        while(loopFlag) {
+            System.out.println(storage.menuDescriptor());
+            ret = scan.nextInt();
+
+            if (ret >= -1 && ret < storage.size()) {
+                loopFlag = false;
+            }
+            else{
+                System.out.println(SearchableStorage.nonRetrievableMessage(ret));
+            }
+        }
+        return ret;
+    }
 
 
 
