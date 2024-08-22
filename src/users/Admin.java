@@ -8,13 +8,13 @@ package users;
  * This class will have special privileges over a basic client, such as
  * modifying the stock of certain products in inventory.
  */
-public class Admin extends User{
+public final class Admin extends User{
 
     //  Inherits the following attributes from it's parent class:
     //      -String userName
     //      -String password
     //  Adds the following attributes:
-    private int employeeNumber; //  An unique identifier for the admin.
+    private final int employeeNumber; //  An unique identifier for the admin.
     // ADD ANOTHER PARAMETER.
 
     /**
@@ -23,8 +23,9 @@ public class Admin extends User{
      * @param userName  , the username required for login.
      * @param password  , the password associated to this user.
      */
-    public Admin(String userName, String password){
+    public Admin(String userName, String password, int employeeNumber){
         super(userName, password);
+        this.employeeNumber = employeeNumber;
     }
 
 
