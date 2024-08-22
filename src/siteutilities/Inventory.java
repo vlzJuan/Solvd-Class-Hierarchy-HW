@@ -39,17 +39,6 @@ public class Inventory implements SearchableStorage<Product> {
         this.inventory = new ArrayList<>();
     }
 
-        // SETTERS AND GETTERS
-
-    //  Getter for date:
-    public LocalDate getLastUpdate(){
-        return this.lastUpdate;
-    }
-
-    //  Setter for date:
-    public void setLastUpdate(LocalDate updateTime){
-        this.lastUpdate = updateTime;
-    }
 
     //////////////// FUNCTIONAL METHODS
 
@@ -141,6 +130,16 @@ public class Inventory implements SearchableStorage<Product> {
         return inventory.get(index);
     }
 
+
+    /**
+     * Method used to determine the internal size of this container.
+     *
+     * @return  an integer representing the size of the internal arrayList for
+     *          the stored product within this instance.
+     */
+    public int size(){
+        return this.inventory.size();
+    }
 
 
 }
