@@ -9,7 +9,7 @@ package users;
 public abstract class User {
 
     //  Attributes:
-    protected String userName;
+    protected final String userName;
     protected String password;
 
     /**
@@ -26,19 +26,11 @@ public abstract class User {
 
     //  Getters:
 
-    public String getUserName(){
-        return this.userName;
-    }
-
     public String getPassword(){
         return this.password;
     }
 
     //  Setters:
-
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
 
     public void setPassword(String password){
         this.password = password;
