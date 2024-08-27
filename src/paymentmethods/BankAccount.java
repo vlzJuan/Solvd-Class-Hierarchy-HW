@@ -25,9 +25,6 @@ public class BankAccount extends PaymentMethod{
 
     //  getters
 
-    public int getBalance(){
-        return this.balance;
-    }
 
     public String getAliasName(){
         return this.aliasName;
@@ -35,9 +32,6 @@ public class BankAccount extends PaymentMethod{
 
     //  Setters
 
-    public void setBalance(int balance){
-        this.balance = balance;
-    }
 
     public void setAliasName(String aliasName){
         this.aliasName = aliasName;
