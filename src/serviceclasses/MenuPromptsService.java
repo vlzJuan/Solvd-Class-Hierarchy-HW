@@ -1,7 +1,9 @@
 package serviceclasses;
 import interfaces.SearchableStorage;
 import products.Product;
+import siteutilities.Cart;
 import siteutilities.Inventory;
+import users.Client;
 
 import java.util.Scanner;
 
@@ -80,6 +82,55 @@ public class MenuPromptsService {
         }
         return ret;
     }
+
+
+
+    public static void cartPurchaseMenu(Client client, Inventory<Product> inventory){
+
+        Cart cart = new Cart();
+        boolean menuFlag = true;
+        while(menuFlag){
+
+            System.out.println("User balance: " + client.balance());
+            System.out.println("Current cart cost: "+ cart.totalCost());
+
+            int retrievedIndex = promptMenuLoop(inventory);
+            if(retrievedIndex ==-1){
+                System.out.println("Finished iterating over the cart. Now purchasing...\n");
+                System.out.println("The final cart is:");
+                System.out.println(cart);
+
+                cart.buy(client);
+                menuFlag = false;
+            }
+            else{
+                if(inventory.isRetrievable(retrievedIndex)){
+                    Product prod = inventory.retrieve(retrievedIndex);
+
+                    int amount = promptInt("Enter how much product you want to buy "
+                            + "(max: " + prod.getStock() + "):");
+                    if(prod.hasStock(amount)){
+                        cart.addProduct(prod, amount);
+                    }
+                    else{
+                        System.out.println("The product does not have enough stock. Retry.");
+                    }
+                }
+                else{
+                    System.out.println("Index out of range. Retry.");
+                }
+            }
+
+        }
+
+        System.out.println("DEBUG.");
+
+
+
+
+    }
+
+
 
 
 
