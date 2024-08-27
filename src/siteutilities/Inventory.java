@@ -1,6 +1,7 @@
 package siteutilities;
 
 
+import interfaces.IndexableByMenu;
 import interfaces.SearchableStorage;
 import products.Product;
 
@@ -13,11 +14,11 @@ import static java.lang.String.format;
  * Class dedicated for the inventory stock for the site.
  * This might be easily replaced with access to a Database way down in this course.
  */
-public class Inventory implements SearchableStorage<Product> {
+public class Inventory<T extends IndexableByMenu> implements SearchableStorage<T> {
 
     //  Attributes:
     private LocalDate lastUpdate;
-    public ArrayList<Product> inventory;
+    public ArrayList<T> inventory;
 
     /**
      * Constructor for an inventory, with only a list of products to initialize it.
@@ -25,7 +26,7 @@ public class Inventory implements SearchableStorage<Product> {
      *
      * @param baseInventory,    the initial products to store
      */
-    public Inventory(ArrayList<Product> baseInventory){
+    public Inventory(ArrayList<T> baseInventory){
         this.lastUpdate = LocalDate.now();
         this.inventory = new ArrayList<>(baseInventory);
     }
@@ -47,7 +48,7 @@ public class Inventory implements SearchableStorage<Product> {
      * If such a product exists, add its stock to the one already in the inventory.
      * @param product   , the product to be added to the inventory.
      */
-    public void addProduct(Product product){
+    public void addProduct(T product){
         this.inventory.add(product);
         this.lastUpdate = LocalDate.now();
     }
@@ -80,7 +81,7 @@ public class Inventory implements SearchableStorage<Product> {
         StringBuilder retornable = new StringBuilder();
         retornable.append(format("Inventory. Last update: %s\n{\n",
                 this.lastUpdate.toString()));
-        for(Product prod:this.inventory){
+        for(T prod:this.inventory){
             retornable.append(prod.toString()).append("\n");
         }
         retornable.append("}");
@@ -103,9 +104,9 @@ public class Inventory implements SearchableStorage<Product> {
         StringBuilder retornable = new StringBuilder();
         retornable.append("Select the object to choose:\n");
         for(int i=0; i<inventory.size(); i++){
-            retornable.append(i + " - " + inventory.get(i).productName + "\n");
+            retornable.append(i + " - " + inventory.get(i).descriptorForMenu() + "\n");
         }
-        retornable.append("'-1' - Exit the menu.\n");
+        retornable.append("'-1' - Exit the menu.");
         return retornable.toString();
     }
 
@@ -126,7 +127,7 @@ public class Inventory implements SearchableStorage<Product> {
      * @param index , the
      * @return  The correct index
      */
-    public Product retrieve(int index){
+    public T retrieve(int index){
         return inventory.get(index);
     }
 
