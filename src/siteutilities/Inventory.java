@@ -8,6 +8,7 @@ import products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Class dedicated for the inventory stock for the site.
@@ -16,14 +17,16 @@ import java.util.ArrayList;
 public class Inventory extends Container<Product> {
 
 
+    private ArrayList<Product> inventory;
+
     /**
      * Constructor for an inventory, with only a list of products to initialize it.
      * It initializes the creation date as the date on which the object is instantiated.
      *
      * @param baseInventory,    the initial products to store
      */
-    public Inventory(ArrayList<Product> baseInventory){
-        super(baseInventory);
+    public Inventory(Collection<Product> baseInventory){
+        super(new ArrayList<>(baseInventory));
     }
 
     /**
@@ -107,15 +110,13 @@ public class Inventory extends Container<Product> {
     }
 
 
-    /**
-     * A method that returns the instance stored in the
-     *
-     * @param index , the
-     * @return  The correct index
-     * @throws  IndexOutOfRangeException  , when the passed index is not accesible.
-     */
+
+    // Copy/pasted. Might have to do something with this later.
     public Product retrieve(int index){
-        return super.retrieve(index);
+        if(index<0 || index>=this.size()){
+            throw new IndexOutOfRangeException("Error: Index not within the selectable bounds");
+        }
+        return inventory.get(index);
     }
 
 

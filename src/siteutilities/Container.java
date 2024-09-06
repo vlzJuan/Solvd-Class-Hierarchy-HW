@@ -8,6 +8,7 @@ import exceptions.IndexOutOfRangeException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import static java.lang.String.format;
 
@@ -19,7 +20,7 @@ public abstract class Container<T extends IndexableByMenu> implements Searchable
 
     //  Attributes:
     protected LocalDate lastUpdate;
-    public ArrayList<T> inventory;
+    public Collection<T> inventory;
 
     /**
      * Constructor for an inventory, with only a list of products to initialize it.
@@ -86,8 +87,9 @@ public abstract class Container<T extends IndexableByMenu> implements Searchable
 
         StringBuilder retornable = new StringBuilder();
         retornable.append(initialString+"\n");
-        for(int i=0; i<inventory.size(); i++){
-            retornable.append(i + " - " + inventory.get(i).descriptorForMenu() + "\n");
+        int i=0;
+        for(T object:inventory){
+            retornable.append(i + " - " + object.descriptorForMenu() + "\n");
         }
         retornable.append("'-1' - Exit the menu.\n");
         return retornable.toString();
@@ -108,8 +110,9 @@ public abstract class Container<T extends IndexableByMenu> implements Searchable
 
         StringBuilder retornable = new StringBuilder();
         retornable.append("Select the object to choose:\n");
-        for(int i=0; i<inventory.size(); i++){
-            retornable.append(i + " - " + inventory.get(i).descriptorForMenu() + "\n");
+        int i=0;
+        for(T object:inventory){
+            retornable.append(i + " - " + object.descriptorForMenu() + "\n");
         }
         retornable.append("'-1' - Exit the menu.");
         return retornable.toString();
@@ -123,12 +126,7 @@ public abstract class Container<T extends IndexableByMenu> implements Searchable
      * @return  The correct index
      * @throws  IndexOutOfRangeException  , when the passed index is not accesible.
      */
-    public T retrieve(int index){
-        if(index<0 || index>=this.size()){
-            throw new IndexOutOfRangeException("Error: Index not within the selectable bounds");
-        }
-        return inventory.get(index);
-    }
+    public abstract T retrieve(int index);
 
 
     /**
