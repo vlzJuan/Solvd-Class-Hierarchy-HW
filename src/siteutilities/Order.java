@@ -1,5 +1,9 @@
 package siteutilities;
 
+import users.Client;
+import java.time.LocalDate;
+
+import static java.lang.String.format;
 
 /**
  * Class that represents an order. This corresponds to a shopping cart
@@ -9,34 +13,29 @@ package siteutilities;
 public class Order {
 
     //  Attributes
-    private int identifier;
-    public String orderDescription;
+    public final LocalDate orderDate;
+    public final Client buyer;
+    public final String orderDescription;
 
 
     /**
      * Default constructor for an order. It requires a cart, to generate
      * the order's description.
-     * @param identifier
-     * @param purchased
+     * @param client    , the client that purchased this order.
+     * @param purchased , the cart from which the order was purchased.
      */
-    public Order(int identifier, Cart purchased){
-        this.identifier = identifier;
-        this.orderDescription = "";
-        //  Here, parse the cart elements and store a resulting string
-        //  in a String at orderDescription.
+    public Order(Client client, Cart purchased){
+        this.orderDate = LocalDate.now();
+        this.buyer = client;
+        this.orderDescription = purchased.toString();
     }
 
 
-    //  Getter for identifier:
-    public int getIdentifier(){
-        return this.identifier;
+    @Override
+    public String toString(){
+
+        return format("Order at %s, purchased by %s\n", this.orderDate, this.buyer.toString()) +
+                format("Order description: \n%s", this.orderDescription);
     }
-
-    //  Setter for identifier:
-    public void setIdentifier(int identifier){
-        this.identifier = identifier;
-    }
-
-
 
 }
