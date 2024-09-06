@@ -1,14 +1,15 @@
 package products;
 
 
-import interfaces.Purchasable;
+import exceptions.NotEnoughStockException;
+import interfaces.IndexableByMenu;
 
 import static java.lang.String.format;
 
 /**
  *  Class corresponding to a product from the E-commerce store.
  */
-public class Product implements Purchasable {
+public class Product implements IndexableByMenu {
 
     //  Attributes:
     public String productName;  //  The name of the product.
@@ -75,16 +76,15 @@ public class Product implements Purchasable {
     /**
      * Method used to remove stock from a Purchasable item.
      *
-     * @param removedStock, the amount of stock to remove.
-     * @return              'true' if the stock was removed,
-     *                      'false' if the operation was not performed.
-     */
-    public boolean removeStock(int removedStock){
-        boolean ret = false;
+     * @param removedStock, the amount of stock to remove     */
+    public void removeStock(int removedStock){
+
         if(hasStock(removedStock)){
             this.stock = this.stock - removedStock;
         }
-        return ret;
+        else{
+            throw new NotEnoughStockException("Error: Not enough stock to perform the operation");
+        }
     }
 
 
@@ -134,4 +134,18 @@ public class Product implements Purchasable {
     }
 
 
+
+    @Override
+    public String descriptorForMenu() {
+        return format("%s (up to %d units), cost/u: $%.2f",this.productName, this.stock, this.cost);
+    }
+
+    public int getStock(){
+        return this.stock;
+    }
+
+
+    public double getCost() {
+        return this.cost;
+    }
 }

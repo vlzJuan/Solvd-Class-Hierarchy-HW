@@ -1,12 +1,14 @@
 package products;
 
+import exceptions.NotEnoughStockException;
+import interfaces.IndexableByMenu;
 import static java.lang.String.format;
 
 /**
  *  Class corresponding to a wrapper for a product from the inventory.
  *  ALL instances of this class must be instantiated with an existing product.
  */
-public class CartProduct {
+public class CartProduct implements IndexableByMenu {
 
     //  Attributes:
     public Product referenceProduct;    //  A product already in the inventory
@@ -17,32 +19,13 @@ public class CartProduct {
      *
      * @param referenceProduct, the already-instantiated reference product
      * @param units ,           the amount of units a user wants.
+     * @throws NotEnoughStockException  when a cartproduct cannot be instantiated from a product, due to
+     *                                  lack of units to do so.
      */
     public CartProduct(Product referenceProduct, int units){
+        referenceProduct.removeStock(units);    // here it can throw the notEnoughStockException
         this.referenceProduct   =   referenceProduct;
         this.units = units;
-    }
-
-
-    /**
-     * Constructor by default. Used when you only want one of this products in the cart.
-     *
-     * @param referenceProduct, the already-instantiated reference product
-     */
-    public CartProduct(Product referenceProduct){
-        this.referenceProduct   =   referenceProduct;
-        this.units = 1;
-    }
-
-
-    /**
-     * Basic boolean method, used to determine if there is enough product
-     * in inventory to satisfy this cart.
-     *
-     * @return  'true' if the stock is enough, 'false' otherwise.
-     */
-    public boolean hasStock(){
-        return referenceProduct.hasStock(this.units);
     }
 
 
@@ -53,9 +36,10 @@ public class CartProduct {
      *
      * @param newUnits      , the new number of units of this product.
      */
-    public void setUnits(int newUnits){
-        this.units = newUnits;
-    }
+    // FIX THIS SO IT CHECKS OUT AVAILABILITY + CURRENT AMOUNT.
+    //public void setUnits(int newUnits){
+    //    this.units = newUnits;
+    //}
 
     /**
      * Method used to determine the total cost of 'this.units' amount of products.
@@ -74,7 +58,7 @@ public class CartProduct {
      */
     @Override
     public String toString(){
-        return format("Product name: %s, Units in cart: %d, Cost per unit: %.2f",
+        return format("'%s' x %d units, total cost: %.2f",
                 this.referenceProduct.productName, this.units, this.totalCost());
     }
 
@@ -117,6 +101,13 @@ public class CartProduct {
     public int hashCode(){
         return this.units + this.referenceProduct.hashCode();
     }
+
+
+    @Override
+    public String descriptorForMenu() {
+        return this.referenceProduct.descriptorForMenu() + ", " + this.units + "units.";
+    }
+
 
 
 }
