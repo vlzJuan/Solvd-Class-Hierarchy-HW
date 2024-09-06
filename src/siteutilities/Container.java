@@ -8,7 +8,6 @@ import exceptions.IndexOutOfRangeException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import static java.lang.String.format;
 
@@ -20,7 +19,7 @@ public abstract class Container<T extends IndexableByMenu> implements Searchable
 
     //  Attributes:
     protected LocalDate lastUpdate;
-    public Collection<T> inventory;
+    public ArrayList<T> inventory;
 
     /**
      * Constructor for an inventory, with only a list of products to initialize it.
@@ -126,8 +125,12 @@ public abstract class Container<T extends IndexableByMenu> implements Searchable
      * @return  The correct index
      * @throws  IndexOutOfRangeException  , when the passed index is not accesible.
      */
-    public abstract T retrieve(int index);
-
+    public T retrieve(int index){
+        if(index<0 || index>=this.size()){
+            throw new IndexOutOfRangeException("Error: Index not within the selectable bounds");
+        }
+        return inventory.get(index);
+    }
 
     /**
      * Method used to determine the internal size of this container.

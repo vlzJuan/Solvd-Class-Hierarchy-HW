@@ -3,7 +3,6 @@ package siteutilities;
 
 import exceptions.ItemNotInStockException;
 import exceptions.NotEnoughStockException;
-import exceptions.IndexOutOfRangeException;
 import products.Product;
 
 import java.time.LocalDate;
@@ -17,7 +16,6 @@ import java.util.Collection;
 public class Inventory extends Container<Product> {
 
 
-    private ArrayList<Product> inventory;
 
     /**
      * Constructor for an inventory, with only a list of products to initialize it.
@@ -99,25 +97,10 @@ public class Inventory extends Container<Product> {
      */
     @Override
     public String menuDescriptor() {
-
-        StringBuilder retornable = new StringBuilder();
-        retornable.append("Select the object to choose:\n");
-        for(int i=0; i<inventory.size(); i++){
-            retornable.append(i + " - " + inventory.get(i).descriptorForMenu() + "\n");
-        }
-        retornable.append("'-1' - Exit the menu.");
-        return retornable.toString();
+        return super.menuDescriptor("Select the object to choose:\n");
     }
 
 
-
-    // Copy/pasted. Might have to do something with this later.
-    public Product retrieve(int index){
-        if(index<0 || index>=this.size()){
-            throw new IndexOutOfRangeException("Error: Index not within the selectable bounds");
-        }
-        return inventory.get(index);
-    }
 
 
 }

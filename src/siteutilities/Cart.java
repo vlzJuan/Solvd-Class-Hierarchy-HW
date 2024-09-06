@@ -1,7 +1,6 @@
 package siteutilities;
 
 
-import exceptions.IndexOutOfRangeException;
 import interfaces.Purchasable;
 import interfaces.SearchableStorage;
 import products.CartProduct;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 public class Cart extends Container<CartProduct>
         implements Purchasable, SearchableStorage<CartProduct> {
 
-    private ArrayList<CartProduct> inventory;
     public boolean stateOfPurchase;
     public boolean stateOfDelivery; //
 
@@ -97,7 +95,7 @@ public class Cart extends Container<CartProduct>
 
     @Override
     public String menuDescriptor() {
-        return super.menuDescriptor("Select the object to choose");
+        return super.menuDescriptor("Select the object to choose:\n");
     }
 
 
@@ -108,16 +106,6 @@ public class Cart extends Container<CartProduct>
 
 
 
-
-
-
-    // Copy/pasted. Might have to rework later.
-    public CartProduct retrieve(int index){
-        if(index<0 || index>=this.size()){
-            throw new IndexOutOfRangeException("Error: Index not within the selectable bounds");
-        }
-        return inventory.get(index);
-    }
 
 
 }
