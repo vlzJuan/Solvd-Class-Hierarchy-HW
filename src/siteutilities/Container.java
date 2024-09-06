@@ -2,19 +2,24 @@ package siteutilities;
 
 
 import exceptions.ItemNotInStockException;
-import exceptions.NotEnoughStockException;
+import interfaces.IndexableByMenu;
+import interfaces.SearchableStorage;
 import exceptions.IndexOutOfRangeException;
-import products.Product;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import static java.lang.String.format;
 
 /**
  * Class dedicated for the inventory stock for the site.
  * This might be easily replaced with access to a Database way down in this course.
  */
-public class Inventory extends Container<Product> {
+public abstract class Container<T extends IndexableByMenu> implements SearchableStorage<T> {
 
+    //  Attributes:
+    protected LocalDate lastUpdate;
+    public ArrayList<T> inventory;
 
     /**
      * Constructor for an inventory, with only a list of products to initialize it.
@@ -22,15 +27,16 @@ public class Inventory extends Container<Product> {
      *
      * @param baseInventory,    the initial products to store
      */
-    public Inventory(ArrayList<Product> baseInventory){
-        super(baseInventory);
+    public Container(ArrayList<T> baseInventory){
+        this.lastUpdate = LocalDate.now();
+        this.inventory = new ArrayList<>(baseInventory);
     }
 
     /**
      * Default constructor. Similar to the first constructor, but initializes
      * the inventory as an empty arraylist.
      */
-    public Inventory(){
+    public Container(){
         this.lastUpdate = LocalDate.now();
         this.inventory = new ArrayList<>();
     }
@@ -43,45 +49,48 @@ public class Inventory extends Container<Product> {
      * If such a product exists, add its stock to the one already in the inventory.
      * @param product   , the product to be added to the inventory.
      */
-    public void addProduct(Product product){
-        super.add(product);
+    public void add(T product){
+        this.inventory.add(product);
+        this.lastUpdate = LocalDate.now();
     }
 
     /**
      * Method used to remove a product from inventory altogether.
      * @param product   , the product to be removed from the inventory.
      */
-    public void removeProduct(Product product){
-        super.remove(product);
-    }
+    public void remove(T product){
 
-    /**
-     * Method used for taking an amount of a certain product out of the inventory.
-     *
-     * @param product   , the product to look for in the inventory.
-     * @param amount    , the amount of product to take from the inventory.
-     */
-    public void takeProduct(Product product, int amount){
-        if (this.inventory.contains(product)){
-            if(product.hasStock(amount)){
-                product.removeStock(amount);
-            }
-            else{
-                throw new NotEnoughStockException("Error: Not enough stock for the request.");
-            }
+        if(!this.inventory.contains(product)){
+            throw new ItemNotInStockException("Error: No such item in this " + this.getClass());
         }
-        else{
-            throw new ItemNotInStockException("Error: There is no such product in this container.");
-        }
+        this.inventory.remove(product);
+        this.lastUpdate = LocalDate.now();
     }
 
 
     /**
      * Overriden method toString(), to show the products stored in the Inventory.
      */
-    @Override
-    public String toString(){
-        return super.toString("Inventory. Last update: " + this.lastUpdate.toString());
+    protected String toString(String descriptor){
+        StringBuilder retornable = new StringBuilder();
+        retornable.append(format(descriptor + "\n{\n",
+                this.lastUpdate.toString()));
+        for(T prod:this.inventory){
+            retornable.append(prod.toString()).append("\n");
+        }
+        retornable.append("}");
+        return retornable.toString();
+    }
+
+    public String menuDescriptor(String initialString) {
+
+        StringBuilder retornable = new StringBuilder();
+        retornable.append(initialString+"\n");
+        for(int i=0; i<inventory.size(); i++){
+            retornable.append(i + " - " + inventory.get(i).descriptorForMenu() + "\n");
+        }
+        retornable.append("'-1' - Exit the menu.\n");
+        return retornable.toString();
     }
 
 
@@ -114,8 +123,22 @@ public class Inventory extends Container<Product> {
      * @return  The correct index
      * @throws  IndexOutOfRangeException  , when the passed index is not accesible.
      */
-    public Product retrieve(int index){
-        return super.retrieve(index);
+    public T retrieve(int index){
+        if(index<0 || index>=this.size()){
+            throw new IndexOutOfRangeException("Error: Index not within the selectable bounds");
+        }
+        return inventory.get(index);
+    }
+
+
+    /**
+     * Method used to determine the internal size of this container.
+     *
+     * @return  an integer representing the size of the internal arrayList for
+     *          the stored product within this instance.
+     */
+    public int size(){
+        return this.inventory.size();
     }
 
 

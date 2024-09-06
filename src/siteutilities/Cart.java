@@ -12,12 +12,10 @@ import java.util.ArrayList;
 /**
  * Class associated with a Shopping cart for the E-commerce site.
  */
-public class Cart implements Purchasable, SearchableStorage<CartProduct> {
+public class Cart extends Container<CartProduct>
+        implements Purchasable, SearchableStorage<CartProduct> {
 
-    //  Attributes:
-    //      An arraylist of products. (private)
-    //      A boolean purchase state (public)
-    private ArrayList<CartProduct> productList;
+
     public boolean stateOfPurchase;
     public boolean stateOfDelivery; //
 
@@ -26,7 +24,7 @@ public class Cart implements Purchasable, SearchableStorage<CartProduct> {
      */
     public Cart(){
         //  Create a copy of the list (to avoid issues with references).
-        this.productList = new ArrayList<>();
+        this.inventory = new ArrayList<>();
         this.stateOfPurchase = false;
         stateOfDelivery = false;
     }
@@ -38,14 +36,7 @@ public class Cart implements Purchasable, SearchableStorage<CartProduct> {
      */
     @Override
     public String toString(){
-
-        StringBuilder ret = new StringBuilder("Cart products:\n");
-
-        for(CartProduct prod:productList){
-            ret.append(prod.toString()).append("\n");
-        }
-
-        return ret.toString();
+        return super.toString("Cart products:\n");
     }
     // Implement methods
 
@@ -62,7 +53,7 @@ public class Cart implements Purchasable, SearchableStorage<CartProduct> {
         boolean ret = false;
 
         if(obj instanceof Cart otherCart){
-            if(this.productList.equals(otherCart.productList)
+            if(this.inventory.equals(otherCart.inventory)
                     && this.stateOfDelivery == otherCart.stateOfDelivery
                     && this.stateOfPurchase == otherCart.stateOfPurchase){
                 ret = true;
@@ -80,7 +71,7 @@ public class Cart implements Purchasable, SearchableStorage<CartProduct> {
     @Override
     public int hashCode(){
         int ret = 0;
-        for(CartProduct prod:this.productList){
+        for(CartProduct prod:this.inventory){
             ret = ret + prod.hashCode();
         }
         return ret;
@@ -90,13 +81,13 @@ public class Cart implements Purchasable, SearchableStorage<CartProduct> {
 
     public void addProduct(Product prod, int amount){
         CartProduct aux = new CartProduct(prod, amount);
-        this.productList.add(aux);
+        this.inventory.add(aux);
     }
 
 
     public double totalCost(){
         double cost = 0.0;
-        for(CartProduct prod:this.productList){
+        for(CartProduct prod:this.inventory){
             cost = cost + prod.totalCost();
         }
         return cost;
@@ -105,33 +96,13 @@ public class Cart implements Purchasable, SearchableStorage<CartProduct> {
 
     @Override
     public String menuDescriptor() {
-
-        StringBuilder retornable = new StringBuilder();
-        retornable.append("Select the object to choose:\n");
-        for(int i=0; i<productList.size(); i++){
-            retornable.append(i + " - " + productList.get(i).descriptorForMenu() + "\n");
-        }
-        retornable.append("'-1' - Exit the menu.\n");
-        return retornable.toString();
-    }
-
-    @Override
-    public boolean isRetrievable(int index) {
-        return (index>=0 && index<this.size());
+        return super.menuDescriptor("Select the object to choose");
     }
 
     @Override
     public CartProduct retrieve(int index) {
-
-        // IMPLEMENT
-        return null;
+        return super.retrieve(index);
     }
-
-    @Override
-    public int size() {
-        return this.productList.size();
-    }
-
 
     @Override
     public void buy(Client buyer) {
