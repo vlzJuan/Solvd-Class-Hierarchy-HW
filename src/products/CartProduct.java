@@ -24,28 +24,6 @@ public class CartProduct {
     }
 
 
-    /**
-     * Constructor by default. Used when you only want one of this products in the cart.
-     *
-     * @param referenceProduct, the already-instantiated reference product
-     */
-    public CartProduct(Product referenceProduct){
-        this.referenceProduct   =   referenceProduct;
-        this.units = 1;
-    }
-
-
-    /**
-     * Basic boolean method, used to determine if there is enough product
-     * in inventory to satisfy this cart.
-     *
-     * @return  'true' if the stock is enough, 'false' otherwise.
-     */
-    public boolean hasStock(){
-        return referenceProduct.hasStock(this.units);
-    }
-
-
     //  Getters and Setters:
 
     /**
@@ -53,6 +31,7 @@ public class CartProduct {
      *
      * @param newUnits      , the new number of units of this product.
      */
+    // FIX SO THAT IT CHECKS FOR THIS AND THE PRODUCT'S UNITS.
     public void setUnits(int newUnits){
         this.units = newUnits;
     }
