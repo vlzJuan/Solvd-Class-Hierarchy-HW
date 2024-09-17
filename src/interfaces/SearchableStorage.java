@@ -15,17 +15,7 @@ public interface SearchableStorage<T>{
      * @return  A descriptive String that shows the options within the Searchable,
      *          with indexes to access them.
      */
-    public String menuDescriptor();
-
-
-    /**
-     * Method used to validate if an index can be used safely.
-     *
-     * @param index , the index of the element one wants to retrieve.
-     * @return      'true'  if the index can be accessed,
-     *              'false' otherwise.
-     */
-    public boolean isRetrievable(int index);
+    String menuDescriptor();
 
 
     public static String nonRetrievableMessage(int index) {
@@ -39,6 +29,7 @@ public interface SearchableStorage<T>{
      *
      * @param index , the
      * @return  The correct index
+     * @throws  exceptions.IndexOutOfRangeException, when the index fails.
      */
     public T retrieve(int index);
 
