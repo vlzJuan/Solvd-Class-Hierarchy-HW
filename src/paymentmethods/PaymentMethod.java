@@ -1,6 +1,10 @@
 package paymentmethods;
 
 
+import exceptions.PaymentFailedException;
+import interfaces.CanPayPurchase;
+import siteutilities.Cart;
+
 /**
  * Class associated with the payment method that an user will need
  * to pay for a product in the E-Commerce store.
@@ -8,12 +12,12 @@ package paymentmethods;
  *      -Bank Account
  *      -Credit Card
  */
-public abstract class PaymentMethod {
+public abstract class PaymentMethod implements CanPayPurchase {
 
     //Attributes:
     protected long identifier;        // The numeric identifier of this payment method.
     protected int validationCode;     //
-    protected int balance;
+    protected double balance;
 
     public PaymentMethod(long identifier, int validationCode, int balance){
         this.identifier = identifier;
@@ -24,6 +28,10 @@ public abstract class PaymentMethod {
     // Implement methods later.
 
     //  Getters:
+
+    public double getBalance(){
+        return this.balance;
+    }
 
     public long getIdentifier(){
         return this.identifier;
@@ -43,5 +51,19 @@ public abstract class PaymentMethod {
         this.validationCode = validationCode;
     }
 
+    public boolean payPurchase(Cart cart){
+
+        boolean ret = false;
+        if (cart.totalCost()<=this.balance){
+            this.balance = this.balance - cart.totalCost();
+            cart.stateOfPurchase = true;
+            ret = true;
+        }
+        else{
+            throw new PaymentFailedException("Error: Insufficient funds");
+        }
+
+        return ret;
+    }
 
 }
