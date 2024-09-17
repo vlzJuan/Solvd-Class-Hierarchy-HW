@@ -14,10 +14,7 @@ import java.util.Collection;
  * This might be easily replaced with access to a Database way down in this course.
  */
 public class Inventory extends Container<Product> {
-
-
-
-    /**
+    /*
      * Constructor for an inventory, with only a list of products to initialize it.
      * It initializes the creation date as the date on which the object is instantiated.
      *
