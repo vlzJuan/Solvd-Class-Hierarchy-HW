@@ -1,7 +1,9 @@
 package users;
 
 
+import interfaces.CanPayPurchase;
 import paymentmethods.PaymentMethod;
+import siteutilities.Cart;
 import siteutilities.Order;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * This class should have permissions to instantiate a product cart,
  * make purchases, and
  */
-public final class Client extends User{
+public final class Client extends User implements CanPayPurchase {
 
     //  Inherits the following attributes from its parent class:
     //      -String userName
@@ -22,8 +24,6 @@ public final class Client extends User{
     // MODIFICAR para que use OrderID
     private ArrayList<Order> purchaseHistory;   //  Attribute that stores this user's
                                                 //  purchases on the site so far.
-
-
     /**
      * Inherits its behaviour from the User parent class.
      * Public constructor for a User. requires a userName and
@@ -84,6 +84,15 @@ public final class Client extends User{
     @Override
     public int hashCode(){
         return this.userName.hashCode() + this.password.hashCode();
+    }
+
+    @Override
+    public boolean payPurchase(Cart cart) {
+        return this.payment.payPurchase(cart);
+    }
+
+    public double balance(){
+        return this.payment.getBalance();
     }
 
 }
