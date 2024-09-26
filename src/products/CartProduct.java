@@ -1,12 +1,14 @@
 package products;
 
+import interfaces.IndexableByMenu;
+
 import static java.lang.String.format;
 
 /**
  *  Class corresponding to a wrapper for a product from the inventory.
  *  ALL instances of this class must be instantiated with an existing product.
  */
-public class CartProduct {
+public class CartProduct implements IndexableByMenu {
 
     //  Attributes:
     public Product referenceProduct;    //  A product already in the inventory
@@ -95,6 +97,16 @@ public class CartProduct {
     @Override
     public int hashCode(){
         return this.units + this.referenceProduct.hashCode();
+    }
+
+
+
+    @Override
+    public String descriptorForMenu() {
+        return format("%s (up to %d units), cost/u: $%.2f",
+                this.referenceProduct.productName,
+                this.referenceProduct.getStock(),
+                this.referenceProduct.getCost());
     }
 
 
