@@ -1,11 +1,21 @@
 package serviceclasses;
+import enums.ProductCategory;
+import exceptions.IndexOutOfRangeException;
+import exceptions.NotEnoughStockException;
+import interfaces.IndexableByMenu;
 import interfaces.SearchableStorage;
 import products.Product;
 import siteutilities.Cart;
+import siteutilities.Container;
 import siteutilities.Inventory;
 import users.Client;
 
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A service class that will allow me to
@@ -23,7 +33,7 @@ public class MenuPromptsService {
         int stock = promptInt("Enter the new product's initial stock: ");
         double cost = promptDouble("Enter the new product's cost");
 
-        return new Product(name, stock, cost);
+        return new Product(name, stock, cost, ProductCategory.UNDEFINED);
     }
 
 
@@ -52,7 +62,7 @@ public class MenuPromptsService {
     }
 
 
-    public static void showInventory(SearchableStorage<?> inv){
+    public static void showInventory(Container<?> inv){
         System.out.println(inv.toString());
     }
 
@@ -65,18 +75,19 @@ public class MenuPromptsService {
      * @param storage   , a class that implements SearchableStorage.
      * @return          the correct index for the option presented.
      */
-    public static int promptMenuLoop(SearchableStorage<?> storage){
+    public static int promptMenuLoop(Container<?> storage){
         Scanner scan = new Scanner(System.in);
         int ret = -2;
         boolean loopFlag = true;
         while(loopFlag) {
-            System.out.println(storage.menuDescriptor());
-            ret = scan.nextInt();
-
-            if (ret >= -1 && ret < storage.size()) {
+            // Constructed the menu from a stream instead of a string in the class.
+            System.out.println("Input the corresponding number to select the item (input '-1' to exit):");
+            storage.menuDescriptorIndexedStream().forEach(line -> System.out.println(line));
+            try {
+                ret = scan.nextInt();
                 loopFlag = false;
             }
-            else{
+            catch(InputMismatchException e){
                 System.out.println(SearchableStorage.nonRetrievableMessage(ret));
             }
         }
@@ -85,7 +96,7 @@ public class MenuPromptsService {
 
 
 
-    public static void cartPurchaseMenu(Client client, Inventory<Product> inventory){
+    public static void cartPurchaseMenu(Client client, Inventory inventory){
 
         Cart cart = new Cart();
         boolean menuFlag = true;
@@ -104,33 +115,33 @@ public class MenuPromptsService {
                 menuFlag = false;
             }
             else{
-                if(inventory.isRetrievable(retrievedIndex)){
+                try{
                     Product prod = inventory.retrieve(retrievedIndex);
-
                     int amount = promptInt("Enter how much product you want to buy "
                             + "(max: " + prod.getStock() + "):");
-                    if(prod.hasStock(amount)){
-                        cart.addProduct(prod, amount);
-                    }
-                    else{
-                        System.out.println("The product does not have enough stock. Retry.");
-                    }
+                    cart.addProduct(prod, amount);
                 }
-                else{
+                catch (NotEnoughStockException e){
+                    System.out.println("The product does not have enough stock. Retry.");
+                }
+                catch(IndexOutOfRangeException e){
                     System.out.println("Index out of range. Retry.");
                 }
             }
 
         }
 
-        System.out.println("DEBUG.");
-
-
-
-
     }
 
 
+
+    // Constructor de menu usando un stream, en vez del toString.
+    //static Consumer<Stream<? extends IndexableByMenu>> constructMenuFromStream = stream -> {
+    //    List<? extends IndexableByMenu> aux = stream.toList();
+    //    for (int i = 0; i < aux.size(); i++) {
+    //        System.out.println(i + " - " + aux.get(i).descriptorForMenu());
+    //    }
+    //};
 
 
 
